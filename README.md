@@ -1,0 +1,2 @@
+# TicketSpot
+Event Management System
