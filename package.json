@@ -1,0 +1,18 @@
+{
+  "name": "finalyearcode",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
+    "test": "npm run test --prefix backend",
+    "build": "npm run build --prefix frontend",
+    "seed": "npm run seed --prefix backend"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

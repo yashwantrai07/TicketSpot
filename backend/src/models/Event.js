@@ -1,0 +1,27 @@
+const mongoose = require("mongoose");
+
+const eventSchema = new mongoose.Schema(
+  {
+    organizerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    title: { type: String, required: true, trim: true },
+    description: { type: String, required: true, trim: true },
+    datetime: { type: Date, required: true },
+    venue: { type: String, required: true, trim: true },
+    category: { type: String, required: true, trim: true },
+    price: { type: Number, required: true, min: 0 },
+    capacity: { type: Number, required: true, min: 1 },
+    availableTickets: { type: Number, required: true, min: 0 },
+    approvalStatus: {
+      type: String,
+      enum: ["pending", "approved", "rejected"],
+      default: "pending",
+    },
+  },
+  { timestamps: true }
+);
+
+module.exports = mongoose.model("Event", eventSchema);
