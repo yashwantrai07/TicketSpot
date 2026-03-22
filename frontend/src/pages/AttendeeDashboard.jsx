@@ -19,7 +19,9 @@ export default function AttendeeDashboard() {
       {bookings.length === 0 && <p>No bookings yet.</p>}
       {bookings.map((booking) => (
         <article key={booking._id} className="rounded border bg-white p-4">
-          <h2 className="font-semibold">{booking.eventId?.title || "Event unavailable"}</h2>
+          <h2 className="font-semibold">{booking.eventId?.title || "Event"}</h2>
+          <p className="font-mono text-sm">Ticket: {booking.ticketCode}</p>
+          <p className="text-sm">Seats: {booking.seatIds?.join(", ")}</p>
           <p>Quantity: {booking.qty}</p>
           <p>Total: Rs. {booking.totalAmount}</p>
           <p>Status: {booking.status}</p>

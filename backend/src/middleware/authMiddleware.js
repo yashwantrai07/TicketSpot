@@ -22,6 +22,10 @@ const protect = async (req, res, next) => {
       return res.status(401).json({ message: "Invalid user access" });
     }
 
+    if (user.status === "pending_verification") {
+      return res.status(403).json({ message: "Please verify your email first" });
+    }
+
     req.user = user;
     next();
   } catch (error) {
@@ -38,4 +42,16 @@ const allowRoles = (...roles) => {
   };
 };
 
-module.exports = { protect, allowRoles };
+const requireOrganizerProfile = (req, res, next) => {
+  if (req.user.role !== "organizer") {
+    return next();
+  }
+  if (!req.user.organizerProfileComplete) {
+    return res.status(403).json({
+      message: "Complete organizer profile (PAN + UPI) before listing events",
+    });
+  }
+  next();
+};
+
+module.exports = { protect, allowRoles, requireOrganizerProfile };

@@ -18,7 +18,7 @@ router.use(protect, allowRoles("admin"));
 router.get("/users", listUsers);
 router.patch(
   "/users/:id/status",
-  [body("status").isIn(["active", "blocked"]), validateRequest],
+  [body("status").isIn(["active", "blocked", "pending_verification"]), validateRequest],
   updateUserStatus
 );
 router.get("/events/pending", pendingEvents);

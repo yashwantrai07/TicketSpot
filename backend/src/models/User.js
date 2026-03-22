@@ -17,8 +17,9 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-      minlength: 6,
+      minlength: 8,
     },
+    phone: { type: String, trim: true, default: "" },
     role: {
       type: String,
       enum: ["admin", "organizer", "attendee"],
@@ -26,9 +27,13 @@ const userSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["active", "blocked"],
-      default: "active",
+      enum: ["pending_verification", "active", "blocked"],
+      default: "pending_verification",
     },
+    /** Organizer KYC-style fields (format-only PAN check) */
+    panNumber: { type: String, trim: true, default: "" },
+    upiId: { type: String, trim: true, default: "" },
+    organizerProfileComplete: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

@@ -17,6 +17,11 @@ export default function Layout({ children }) {
             {!user && <Link to="/register">Register</Link>}
             {user?.role === "attendee" && <Link to="/attendee">My Dashboard</Link>}
             {user?.role === "organizer" && <Link to="/organizer">Organizer Dashboard</Link>}
+            {user?.role === "organizer" && !user?.organizerProfileComplete && (
+              <Link className="font-bold text-amber-700" to="/organizer/profile">
+                Complete profile
+              </Link>
+            )}
             {user?.role === "admin" && <Link to="/admin">Admin Dashboard</Link>}
             {user && (
               <>

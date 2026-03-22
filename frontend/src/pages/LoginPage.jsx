@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { api } from "../api/client";
 import { useAuth } from "../hooks/useAuth";
 
@@ -44,6 +44,9 @@ export default function LoginPage() {
       <button className="w-full rounded bg-indigo-600 p-2 text-white" type="submit">
         Login
       </button>
+      <Link className="block text-center text-sm text-indigo-600" to="/forgot-password">
+        Forgot password?
+      </Link>
     </form>
   );
 }

@@ -9,10 +9,18 @@ const eventSchema = new mongoose.Schema(
     },
     title: { type: String, required: true, trim: true },
     description: { type: String, required: true, trim: true },
-    datetime: { type: Date, required: true },
+    /** Event window (organizer picks start and end) */
+    startAt: { type: Date, required: true },
+    endAt: { type: Date, required: true },
     venue: { type: String, required: true, trim: true },
     category: { type: String, required: true, trim: true },
     price: { type: Number, required: true, min: 0 },
+    seatLayout: {
+      rows: { type: Number, required: true, min: 1, max: 50 },
+      cols: { type: Number, required: true, min: 1, max: 50 },
+    },
+    /** Booked seat ids, format R{row}-C{col} */
+    bookedSeats: { type: [String], default: [] },
     capacity: { type: Number, required: true, min: 1 },
     availableTickets: { type: Number, required: true, min: 0 },
     approvalStatus: {

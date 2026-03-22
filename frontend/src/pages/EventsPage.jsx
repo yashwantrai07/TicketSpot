@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { api } from "../api/client";
 import { useAuth } from "../hooks/useAuth";
 
@@ -7,7 +8,6 @@ export default function EventsPage() {
   const [events, setEvents] = useState([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
 
   const fetchEvents = async () => {
     setLoading(true);
@@ -20,16 +20,6 @@ export default function EventsPage() {
     fetchEvents();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const book = async (eventId) => {
-    try {
-      await api.post("/bookings", { eventId, qty: 1 });
-      setMessage("Booking successful");
-      fetchEvents();
-    } catch (err) {
-      setMessage(err.response?.data?.message || "Booking failed");
-    }
-  };
 
   return (
     <section className="space-y-4">
@@ -45,7 +35,6 @@ export default function EventsPage() {
           Search
         </button>
       </div>
-      {message && <p className="text-sm text-indigo-700">{message}</p>}
       {loading && <p>Loading events...</p>}
       {!loading && events.length === 0 && <p>No approved events yet.</p>}
       <div className="grid gap-4 md:grid-cols-2">
@@ -54,17 +43,28 @@ export default function EventsPage() {
             <h2 className="text-lg font-semibold">{event.title}</h2>
             <p className="text-sm text-gray-700">{event.description}</p>
             <p className="mt-2 text-sm">Venue: {event.venue}</p>
-            <p className="text-sm">Date: {new Date(event.datetime).toLocaleString()}</p>
-            <p className="text-sm">Available: {event.availableTickets}</p>
-            <p className="text-sm font-medium">Price: Rs. {event.price}</p>
+            <p className="text-sm">
+              From: {new Date(event.startAt).toLocaleString()}
+              <br />
+              To: {new Date(event.endAt).toLocaleString()}
+            </p>
+            <p className="text-sm">Available seats: {event.availableTickets}</p>
+            <p className="text-sm font-medium">Price: Rs. {event.price} / seat</p>
             {user?.role === "attendee" && (
-              <button
-                className="mt-3 rounded bg-green-600 px-3 py-1 text-white disabled:opacity-40"
-                onClick={() => book(event._id)}
-                disabled={event.availableTickets < 1}
+              <Link
+                className="mt-3 inline-block rounded bg-green-600 px-3 py-1 text-white disabled:opacity-40"
+                to={`/events/${event._id}/seats`}
               >
-                Book 1 Ticket
-              </button>
+                Select seats & book
+              </Link>
+            )}
+            {!user && (
+              <p className="mt-2 text-sm text-gray-500">
+                <Link className="text-indigo-600 underline" to="/login">
+                  Login as attendee
+                </Link>{" "}
+                to book.
+              </p>
             )}
           </article>
         ))}

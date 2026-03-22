@@ -13,7 +13,8 @@ router.post(
   allowRoles("attendee"),
   [
     body("eventId").isMongoId().withMessage("Valid eventId is required"),
-    body("qty").isInt({ min: 1 }).withMessage("Quantity should be >= 1"),
+    body("seatIds").isArray({ min: 1 }).withMessage("seatIds must be a non-empty array"),
+    body("seatIds.*").isString().notEmpty(),
     validateRequest,
   ],
   createBooking
