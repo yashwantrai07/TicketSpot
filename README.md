@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # TicketSpot - Event Booking System
 
 TicketSpot is a MERN-based event booking platform with role-based access for attendees, organizers, and admins.
@@ -51,3 +52,7 @@ TicketSpot is a MERN-based event booking platform with role-based access for att
 - `GET /api/bookings/me` (attendee)
 
 Detailed docs are in `docs/`.
+=======
+# TicketSpot
+Event Management System
+>>>>>>> 56e80ec516b779255eafcb716010761182cb0780
