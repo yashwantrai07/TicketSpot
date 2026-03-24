@@ -60,8 +60,8 @@ export default function FakePaymentPage() {
 
   return (
     <div className="mx-auto max-w-md space-y-4 rounded bg-white p-6 shadow">
-      <h1 className="text-xl font-semibold">Fake payment</h1>
-      <p className="text-sm text-gray-600">This is a demo — no real money is charged.</p>
+      <h1 className="text-xl font-semibold">Payment Page</h1>
+      <p className="text-sm text-gray-600">Pay now by clicking below</p>
       <div className="rounded border p-3 text-sm">
         <p className="font-semibold">{event.title}</p>
         <p>Seats ({seatIds.length}): {seatIds.join(", ")}</p>
