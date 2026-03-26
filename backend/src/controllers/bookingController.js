@@ -23,6 +23,10 @@ const createBooking = async (req, res) => {
         throw new Error("EVENT_UNAVAILABLE");
       }
 
+      if (new Date(event.startAt) < new Date()) {
+        throw new Error("EVENT_PASSED");
+      }
+
       const err = validateSeatIdsForEvent(event, seatIds);
       if (err) {
         throw new Error(err);
@@ -70,6 +74,9 @@ const createBooking = async (req, res) => {
     const msg = e.message;
     if (msg === "EVENT_UNAVAILABLE") {
       return res.status(400).json({ message: "Event not available" });
+    }
+    if (msg === "EVENT_PASSED") {
+      return res.status(400).json({ message: "This event has already started or ended" });
     }
     if (msg === "SEAT_TAKEN") {
       return res.status(409).json({ message: "One or more seats are already booked" });

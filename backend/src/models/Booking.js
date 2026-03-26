@@ -27,6 +27,7 @@ const bookingSchema = new mongoose.Schema(
       enum: ["confirmed", "cancelled"],
       default: "confirmed",
     },
+    isRated: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

@@ -1,23 +1,33 @@
-const { Resend } = require("resend");
+const nodemailer = require("nodemailer");
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const createTransport = () => {
+  const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM } = process.env;
+  if (SMTP_HOST && SMTP_USER && SMTP_PASS) {
+    return nodemailer.createTransport({
+      host: SMTP_HOST,
+      port: Number(SMTP_PORT) || 587,
+      secure: false,
+      auth: { user: SMTP_USER, pass: SMTP_PASS },
+    });
+  }
+  return null;
+};
 
 const sendMail = async ({ to, subject, text, html }) => {
-  console.log("RESEND KEY:", process.env.RESEND_API_KEY);
-  try {
-    await resend.emails.send({
-      from: "TicketSpot <onboarding@resend.dev>", // temp sender
-      to,
-      subject,
-      text,
-      html: html || text,
-    });
+  const transport = createTransport();
+  const from = process.env.SMTP_FROM || "TicketSpot <noreply@ticketspot.local>";
 
-    return { sent: true };
-  } catch (err) {
-    console.error("Email error:", err);
-    throw err;
+  if (!transport) {
+    console.log("\n--- EMAIL (SMTP not configured; OTP below) ---");
+    console.log(`To: ${to}`);
+    console.log(`Subject: ${subject}`);
+    console.log(text);
+    console.log("--- END EMAIL ---\n");
+    return { dev: true };
   }
+
+  await transport.sendMail({ from, to, subject, text, html: html || text });
+  return { sent: true };
 };
 
 module.exports = { sendMail };

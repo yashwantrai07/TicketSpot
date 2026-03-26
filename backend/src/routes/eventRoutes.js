@@ -9,6 +9,7 @@ const {
   getOrganizerEvents,
   updateOwnEvent,
   deleteOwnEvent,
+  rateEvent,
 } = require("../controllers/eventController");
 const { protect, allowRoles, requireOrganizerProfile } = require("../middleware/authMiddleware");
 const { validateRequest } = require("../middleware/validateRequest");
@@ -43,5 +44,6 @@ router.post(
 router.get("/:id", protect, getEventById);
 router.put("/:id", protect, allowRoles("organizer"), updateOwnEvent);
 router.delete("/:id", protect, allowRoles("organizer"), deleteOwnEvent);
+router.post("/rate", protect, rateEvent);
 
 module.exports = router;

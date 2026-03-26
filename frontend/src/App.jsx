@@ -11,6 +11,8 @@ import OrganizerDashboard from "./pages/OrganizerDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import EventSeatSelectPage from "./pages/EventSeatSelectPage";
 import FakePaymentPage from "./pages/FakePaymentPage";
+import EventDetailsPage from "./pages/EventDetailsPage";
+import CheckoutPage from "./pages/CheckoutPage";
 
 function App() {
   return (
@@ -18,6 +20,7 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<EventsPage />} />
+          <Route path="/events/:eventId" element={<EventDetailsPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
@@ -58,6 +61,14 @@ function App() {
             element={
               <ProtectedRoute roles={["attendee"]}>
                 <EventSeatSelectPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/events/:eventId/checkout"
+            element={
+              <ProtectedRoute roles={["attendee"]}>
+                <CheckoutPage />
               </ProtectedRoute>
             }
           />
